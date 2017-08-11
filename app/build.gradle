@@ -1,0 +1,62 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt' //needed for source code generation
+apply plugin: 'realm-android'
+apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.toped.app.newsped"
+        minSdkVersion 17
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = [
+                    'src/main/res',
+                    'src/main/res/layouts',
+                    'src/main/res/layouts/activities',
+                    'src/main/res/layouts/fragments',
+                    'src/main/res/layouts/partials',
+                    'src/main/res/layouts/row',
+                    'src/main/res/layouts/contents'
+
+            ]
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.*'
+    compile 'com.android.support:cardview-v7:25.3.1'
+
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'  // http request
+    compile 'de.greenrobot:eventbus:3.0.0-beta1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.github.arimorty:floatingsearchview:2.1.1'
+    compile 'com.eclipsesource.minimal-json:minimal-json:0.9.4' // json parser
+
+    // Testing
+    compile 'com.jayway.android.robotium:robotium-solo:5.2.1' // UI Test
+    testCompile "org.robolectric:robolectric:3.0" // test unit
+    testCompile 'junit:junit:4.12'
+}
