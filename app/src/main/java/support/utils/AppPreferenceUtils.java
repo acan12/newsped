@@ -1,4 +1,4 @@
-package support.util;
+package support.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,7 +9,7 @@ import com.toped.app.newsped.R;
 /**
  * Created by arysuryawan on 7/20/16.
  */
-public class AppPreferenceUtil {
+public class AppPreferenceUtils {
 
     static final int PREFERENCE_KEY = R.string.app_name;
     static SharedPreferences sharedPref;

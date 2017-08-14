@@ -2,7 +2,10 @@ package com.toped.app.newsped;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+
+import com.toped.app.newsped.ui.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +31,9 @@ public class ArticleDetailActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         webviewArticleContent.getSettings().setBuiltInZoomControls(true);
+        webviewArticleContent.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         webviewArticleContent.loadUrl(url);
+
 
     }
 }

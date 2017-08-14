@@ -1,24 +1,26 @@
-package com.toped.app.newsped.fragment;
+package com.toped.app.newsped.ui.fragment;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.toped.app.newsped.MainActivity;
 import com.toped.app.newsped.R;
+import com.toped.app.newsped.model.dao.SourceDao;
+import com.toped.app.newsped.ui.adapter.SourceAdapter;
+import com.toped.app.newsped.ui.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import support.adapter.SourceAdapter;
-import support.dao.SourceDao;
+import support.utils.UiUtils;
 
 /**
  * Created by arysuryawan on 8/8/17.
@@ -30,6 +32,8 @@ public class SourceListFragment extends BaseFragment {
     RecyclerView recyclerView;
 
     private final FragmentManager fm;
+    private ActionBar actionBar;
+    private ProgressDialog dialog;
 
 
     public SourceListFragment(FragmentManager fm) {
@@ -42,17 +46,30 @@ public class SourceListFragment extends BaseFragment {
         View layout = inflater.inflate(R.layout.fragment_source_list, null, false);
         ButterKnife.bind(this, layout);
 
-        SourceDao.fetchSources(this);
+//        actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+//        actionBar.setTitle(getResources().getString(R.string.app_name));
 
         return layout;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (UiUtils.isActivityRunning(MainActivity.class, getContext()))
+            SourceDao.fetchSources(this);
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().finish();
+    }
 
-    public void callbackResponse(){
+    public void callbackResponse(final ProgressDialog dialog) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                dialog.dismiss();
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

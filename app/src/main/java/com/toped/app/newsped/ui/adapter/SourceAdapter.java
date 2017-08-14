@@ -1,4 +1,4 @@
-package support.adapter;
+package com.toped.app.newsped.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.toped.app.newsped.BaseActivity;
+import com.toped.app.newsped.ui.base.BaseActivity;
 import com.toped.app.newsped.R;
-import com.toped.app.newsped.fragment.ArticleListFragment;
+import com.toped.app.newsped.ui.fragment.ArticleListFragment;
 import com.toped.app.newsped.model.Source;
 
 import java.util.List;

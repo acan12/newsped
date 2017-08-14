@@ -1,4 +1,4 @@
-package support.dao;
+package com.toped.app.newsped.model.dao;
 
 import android.content.Context;
 
@@ -7,7 +7,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
-import support.util.RandomUtil;
+import support.utils.EncryptionUtils;
 
 /**
  * Created by arysuryawan on 6/26/16.
@@ -28,7 +28,7 @@ public class BaseDao {
         RealmConfiguration realmConfig = new RealmConfiguration.Builder()
                 .deleteRealmIfMigrationNeeded()
                 .name("newsped.realm")
-                .encryptionKey(RandomUtil.encryptedKey64())
+                .encryptionKey(EncryptionUtils.encryptedKey64())
                 .build();
 
         Realm.setDefaultConfiguration(realmConfig);
@@ -43,7 +43,6 @@ public class BaseDao {
         realm.beginTransaction();
         RealmObject obj = realm.copyToRealm(object);
         realm.commitTransaction();
-
 
         return obj;
     }
@@ -83,6 +82,5 @@ public class BaseDao {
         } catch (Exception e) {
         }
     }
-
 
 }

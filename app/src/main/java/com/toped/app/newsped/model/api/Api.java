@@ -1,4 +1,4 @@
-package support.api;
+package com.toped.app.newsped.model.api;
 
 import android.content.Context;
 

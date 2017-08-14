@@ -1,9 +1,13 @@
-package support.dao;
+package com.toped.app.newsped.model.dao;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
-import com.toped.app.newsped.fragment.BaseFragment;
 import com.toped.app.newsped.model.Source;
+import com.toped.app.newsped.model.api.Api;
+import com.toped.app.newsped.model.dao.parser.SourceParser;
+import com.toped.app.newsped.ui.base.BaseFragment;
+import com.toped.app.newsped.ui.component.DialogComponent;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,8 +17,6 @@ import io.realm.RealmResults;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-import support.api.Api;
-import support.parser.SourceParser;
 
 /**
  * Created by arysuryawan on 8/8/17.
@@ -26,16 +28,16 @@ public class SourceDao extends BaseDao {
         super(context);
     }
 
-    public static SourceDao instanceObject(Context context) {
+    public static SourceDao instanceObject(android.content.Context context) {
         return new SourceDao(context);
     }
 
     public static void fetchSources(final BaseFragment fragment) {
-
+        final ProgressDialog dialog = DialogComponent.setupLoadingProgress(fragment.getContext());
         Api.getNewsSources(fragment.getActivity(), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                fragment.callbackFailure(dialog);
             }
 
             @Override
@@ -45,13 +47,15 @@ public class SourceDao extends BaseDao {
 
                     SourceParser.setSource(json.toString(), fragment.getActivity());
 
-                    fragment.callbackResponse();
+                    fragment.callbackResponse(dialog);
                 }
             }
         });
     }
 
-    public static void saveSource(SourceParser.Holder holder, Context context) {
+
+
+    public static void saveSource(SourceParser.Holder holder, android.content.Context context) {
         instanceObject(context);
 
         // if already exist not need create new object instance.
@@ -72,7 +76,7 @@ public class SourceDao extends BaseDao {
         saveToRealm(source);
     }
 
-    public static List<Source> getSources(Context context) {
+    public static List<Source> getSources(android.content.Context context) {
         instanceObject(context);
         RealmResults<Source> data;
         try {

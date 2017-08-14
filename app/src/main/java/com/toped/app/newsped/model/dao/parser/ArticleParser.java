@@ -1,4 +1,4 @@
-package support.parser;
+package com.toped.app.newsped.model.dao.parser;
 
 import android.content.Context;
 
@@ -7,7 +7,7 @@ import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonValue;
 
 import support.config.IConfig;
-import support.dao.ArticleDao;
+import com.toped.app.newsped.model.dao.ArticleDao;
 
 /**
  * Created by arysuryawan on 8/8/17.

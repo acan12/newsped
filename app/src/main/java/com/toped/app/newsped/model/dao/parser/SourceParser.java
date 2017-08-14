@@ -1,4 +1,4 @@
-package support.parser;
+package com.toped.app.newsped.model.dao.parser;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -11,7 +11,7 @@ import com.toped.app.newsped.model.Source;
 import java.util.List;
 
 import support.config.IConfig;
-import support.dao.SourceDao;
+import com.toped.app.newsped.model.dao.SourceDao;
 
 
 /**

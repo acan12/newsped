@@ -1,5 +1,6 @@
-package support.adapter;
+package com.toped.app.newsped.ui.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
@@ -10,9 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.toped.app.newsped.ArticleDetailActivity;
-import com.toped.app.newsped.BaseActivity;
+import com.toped.app.newsped.ui.base.BaseActivity;
 import com.toped.app.newsped.R;
 import com.toped.app.newsped.model.Article;
+import com.toped.app.newsped.ui.component.DialogComponent;
 
 import java.util.List;
 
@@ -49,6 +51,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         holder.cardItemArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DialogComponent.setupLoadingProgress(ac);
                 Intent intent = new Intent(ac, ArticleDetailActivity.class);
                 intent.putExtra("article_url", url);
                 ac.startActivity(intent);

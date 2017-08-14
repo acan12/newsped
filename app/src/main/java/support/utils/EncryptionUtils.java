@@ -1,4 +1,4 @@
-package support.util;
+package support.utils;
 
 import java.security.MessageDigest;
 import java.util.Random;
@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Created by arysuryawan on 7/20/16.
  */
-public class RandomUtil {
+public class EncryptionUtils {
 
     public static String deviceUUID() {
 

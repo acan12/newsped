@@ -1,9 +1,13 @@
-package support.dao;
+package com.toped.app.newsped.model.dao;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
-import com.toped.app.newsped.fragment.BaseFragment;
 import com.toped.app.newsped.model.Article;
+import com.toped.app.newsped.model.api.Api;
+import com.toped.app.newsped.model.dao.parser.ArticleParser;
+import com.toped.app.newsped.ui.base.BaseFragment;
+import com.toped.app.newsped.ui.component.DialogComponent;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,8 +18,6 @@ import io.realm.Sort;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-import support.api.Api;
-import support.parser.ArticleParser;
 
 /**
  * Created by arysuryawan on 8/8/17.
@@ -26,17 +28,17 @@ public class ArticleDao extends BaseDao {
         super(context);
     }
 
-    public static ArticleDao instanceObject(Context context) {
+    public static ArticleDao instanceObject(android.content.Context context) {
         return new ArticleDao(context);
     }
 
     public static void fetchArticles(String sourceId, final BaseFragment fragment) {
-
+        final ProgressDialog dialog = DialogComponent.setupLoadingProgress(fragment.getContext());
         removeAllArticles(); // clear all articles
         Api.getNewsArticle(sourceId, fragment.getActivity(), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                fragment.callbackFailure();
+                fragment.callbackFailure(dialog);
             }
 
             @Override
@@ -46,15 +48,15 @@ public class ArticleDao extends BaseDao {
 
                     ArticleParser.setArticle(json.toString(), fragment.getActivity());
 
-                    fragment.callbackResponse();
+                    fragment.callbackResponse(dialog);
                 } else {
-                    fragment.callbackFailure();
+                    fragment.callbackFailure(dialog);
                 }
             }
         });
     }
 
-    public static void saveArticle(ArticleParser.Holder holder, Context context) {
+    public static void saveArticle(ArticleParser.Holder holder, android.content.Context context) {
         instanceObject(context);
 
         // if already exist not need create new object instance.
@@ -70,11 +72,11 @@ public class ArticleDao extends BaseDao {
         saveToRealm(article);
     }
 
-    public static List<Article> getArticles(Context context) {
+    public static List<Article> getArticles(android.content.Context context) {
         return getArticles(context, "");
     }
 
-    public static List<Article> getArticles(Context context, String keyword) {
+    public static List<Article> getArticles(android.content.Context context, String keyword) {
         instanceObject(context);
         RealmResults<Article> data;
         try {

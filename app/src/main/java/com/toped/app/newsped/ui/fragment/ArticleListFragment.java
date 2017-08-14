@@ -1,6 +1,7 @@
-package com.toped.app.newsped.fragment;
+package com.toped.app.newsped.ui.fragment;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -18,14 +19,16 @@ import android.widget.Toast;
 
 import com.toped.app.newsped.MainActivity;
 import com.toped.app.newsped.R;
+import com.toped.app.newsped.model.dao.ArticleDao;
+import com.toped.app.newsped.presentation.bus.MessageEvent;
+import com.toped.app.newsped.ui.adapter.ArticleAdapter;
+import com.toped.app.newsped.ui.base.BaseFragment;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import support.adapter.ArticleAdapter;
 import support.component.KeyboardComponent;
-import support.dao.ArticleDao;
 
 /**
  * Created by arysuryawan on 8/8/17.
@@ -78,8 +81,8 @@ public class ArticleListFragment extends BaseFragment {
                 recyclerView.setAdapter(adapter);
                 recyclerView.invalidate();
 
-                Toast.makeText(getContext(), "Search \"" + searchView.getText() + "\", " + data.size() + " item found", Toast.LENGTH_LONG).show();
-
+//                Toast.makeText(getContext(), "Search \"" + searchView.getText() + "\", " + data.size() + " item found", Toast.LENGTH_LONG).show();
+                ((MainActivity)getActivity()).getBus().post(new MessageEvent("Search", actionBar));
             }
         });
 
@@ -94,20 +97,22 @@ public class ArticleListFragment extends BaseFragment {
     }
 
     @Override
-    public void callbackFailure() {
+    public void callbackFailure(final ProgressDialog dialog) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(getContext(), "Network problem", Toast.LENGTH_LONG).show();
+                dialog.dismiss();
             }
         });
     }
 
     @Override
-    public void callbackResponse() {
+    public void callbackResponse(final ProgressDialog dialog) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                dialog.dismiss();
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -116,9 +121,5 @@ public class ArticleListFragment extends BaseFragment {
 
             }
         });
-    }
-
-    public void onClearSearch(View v) {
-        searchView.setText("");
     }
 }
